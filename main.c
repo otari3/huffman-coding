@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "libs/strings/sds/sds.h"
+#include "libs/strings/sds.h"
 #include "huffman.h"
 
 int main() {
