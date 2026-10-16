@@ -6,5 +6,15 @@ add_executable(main main.c
         huffman.c
         huffman.h
         libs/strings/sds.c
-        libs/strings/testhelp.h)
+        libs/strings/testhelp.h
+      )
 
+find_package(PkgConfig REQUIRED)
+pkg_check_modules(CRITERION REQUIRED IMPORTED_TARGET criterion)
+
+add_executable(huffmanTests huffman.c libs/stb_ds.h
+        huffman.h
+        libs/strings/sds.c
+        libs/strings/testhelp.h
+        huffmanTests.c)
+target_link_libraries(huffmanTests PRIVATE PkgConfig::CRITERION)

@@ -7,8 +7,27 @@
 #include <stddef.h>
 #include <stdio.h>
 
+
+int comp(const void *a, const void *b) {
+    frequencyc x = *(frequencyc*)a;
+    frequencyc y = *(frequencyc*)b;
+    if (x.value>y.value) {
+        return -1;
+    }
+    if (x.value<y.value) {
+        return 1;
+    }
+    if (x.key>y.key) {
+        return -1;
+    }
+    if (x.key<y.key) {
+        return 1;
+    }
+    return 0;
+}
+
 frequencyc* get_frequency_in_file(char* fileName) {
-    frequencyc* counter = NULL;
+    frequencyc* letterCounter = NULL;
     FILE* file_pointer = fopen(fileName,"r");
     int ch;
     if (file_pointer==NULL) {
@@ -16,14 +35,15 @@ frequencyc* get_frequency_in_file(char* fileName) {
         return NULL;
     }
     while ((ch = fgetc(file_pointer)) != EOF) {
-        int index = hmgeti(counter,(char)ch);
+        int index = hmgeti(letterCounter,(char)ch);
         if (index==-1) {
-            hmput(counter,(char)ch,1);
+            hmput(letterCounter,(char)ch,1);
         }else {
-            counter[index].value++;
+            letterCounter[index].value++;
         }
     }
-    return counter;
+    qsort(letterCounter,hmlen(letterCounter),sizeof(frequencyc),comp);
+    return letterCounter;
 }
 
 
